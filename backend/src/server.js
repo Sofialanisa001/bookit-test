@@ -47,7 +47,7 @@ app.use("/api/reportes", reporteRoutes);
 
 // PARA SERVIR REACT Y BACK EN PRODUCCIÓN JUNTOS
 if (process.env.NODE_ENV === "production") {
-    const frontendPath = path.join(__dirname, "public");
+    const frontendPath = path.join(process.cwd(), "src", "public");
 
     app.use(express.static(frontendPath));
 
