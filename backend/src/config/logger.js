@@ -8,6 +8,11 @@ const logFormat = winston.format.combine(
 
 const logger = winston.createLogger({
     format: logFormat,
+
+    // ESTA ES LA CLAVE: Si detecta que es producción, el logger deja de imprimir
+    // pero el objeto sigue existiendo para que el resto de tu código no falle.
+    silent: process.env.NODE_ENV === "production",
+
     transports: [
         // SOLO usamos archivos si NO estamos en Vercel/Producción
         ...(process.env.NODE_ENV !== "production"
@@ -21,27 +26,27 @@ const logger = winston.createLogger({
                   }),
               ]
             : [
-                  // En producción solo mandamos a consola para que Vercel lo vea
+                  // En producción, si 'silent' fuera false, esto mandaría a la consola de Vercel
                   new winston.transports.Console({
                       format: winston.format.simple(),
                   }),
               ]),
     ],
     exceptionHandlers: [
-        // Mismo truco: solo archivos en desarrollo
+        // Evitamos crear archivos de excepciones en el sistema de solo lectura de Vercel
         ...(process.env.NODE_ENV !== "production"
             ? [new winston.transports.File({ filename: "logs/exceptions.log" })]
             : [new winston.transports.Console()]),
     ],
     rejectionHandlers: [
-        // Evitamos crear archivos de rechazo en producción
+        // Evitamos crear archivos de promesas rechazadas en producción
         ...(process.env.NODE_ENV !== "production"
             ? [new winston.transports.File({ filename: "logs/rejections.log" })]
             : [new winston.transports.Console()]),
     ],
 });
 
-// Si estamos en desarrollo, agregamos el formato bonito con colores
+// Si estás en tu computadora (desarrollo), se ve bonito y con colores en la terminal
 if (process.env.NODE_ENV !== "production") {
     logger.add(
         new winston.transports.Console({
