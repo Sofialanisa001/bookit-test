@@ -6,6 +6,12 @@ const cors = require("cors");
 const path = require("path");
 const app = express();
 
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -47,15 +53,12 @@ app.use("/api/reportes", reporteRoutes);
 
 // PARA SERVIR REACT Y BACK EN PRODUCCIÓN JUNTOS
 if (process.env.NODE_ENV === "production") {
-    // archivos de React
-    app.use(express.static(path.join(__dirname, "../public")));
-    app.get(/(.*)/, (req, res) => {
-        if (!req.url.startsWith("/api")) {
-            res.sendFile(path.join(__dirname, "../public", "index.html"));
-        }
+    const frontendPath = path.join(__dirname, "public");
+    app.use(express.static(frontendPath));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(frontendPath, "index.html"));
     });
-} else {
-    logger.info("Modo desarrollo: React se sirve desde Vite.");
 }
 
 const PORT = process.env.PORT || 5001;
