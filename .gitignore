@@ -1,0 +1,11 @@
+# Ignora node_modules en cualquier nivel
+node_modules/
+
+# Ignora archivos .env en cualquier nivel
+.env
+
+# Logs
+logs/*.log
+logs/
+
+dist/

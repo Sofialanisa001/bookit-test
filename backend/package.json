@@ -1,0 +1,33 @@
+{
+    "dependencies": {
+        "bcryptjs": "^3.0.3",
+        "cloudinary": "^2.9.0",
+        "cookie-parser": "^1.4.7",
+        "cors": "^2.8.6",
+        "dotenv": "^17.4.1",
+        "express": "^5.2.1",
+        "express-fileupload": "^1.5.2",
+        "express-validator": "^7.3.2",
+        "jsonwebtoken": "^9.0.3",
+        "mongoose": "^9.4.1",
+        "winston": "^3.19.0"
+    },
+    "devDependencies": {
+        "@faker-js/faker": "^10.3.0",
+        "concurrently": "^9.2.1",
+        "jest": "^30.3.0",
+        "nodemon": "^3.1.14",
+        "supertest": "^7.2.2"
+    },
+    "name": "bookit",
+    "version": "1.0.0",
+    "description": "App web diseñada para agendar y administrar citas",
+    "main": "src/server.js",
+    "scripts": {
+        "test": "jest --detectOpenHandles",
+        "start": "node src/server.js",
+        "server": "nodemon --env-file=.env src/server.js"
+    },
+    "author": "Sofia Alanis, Aylin Rodriguez, Luz García, Itzel Pérez",
+    "license": "MIT"
+}

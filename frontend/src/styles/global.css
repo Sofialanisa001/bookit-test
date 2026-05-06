@@ -1,0 +1,9 @@
+/* Tipografia */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Syncopate:wght@400;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: "Montserrat", sans-serif;
+  -webkit-font-smoothing: antialiased; /* Hace que las letras se vean mas suaves al suavizar sus bordes en navegadores WebKit */
+  background: #060511 !important;
+}
