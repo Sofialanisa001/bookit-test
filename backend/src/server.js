@@ -48,10 +48,10 @@ app.use("/api/reportes", reporteRoutes);
 // PARA SERVIR REACT Y BACK EN PRODUCCIÓN JUNTOS
 if (process.env.NODE_ENV === "production") {
     // archivos de React
-    app.use(express.static(path.join(__dirname, "../dist")));
+    app.use(express.static(path.join(__dirname, "../public")));
     app.get(/(.*)/, (req, res) => {
         if (!req.url.startsWith("/api")) {
-            res.sendFile(path.join(__dirname, "../dist", "index.html"));
+            res.sendFile(path.join(__dirname, "../public", "index.html"));
         }
     });
 } else {
