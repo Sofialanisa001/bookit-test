@@ -6,7 +6,6 @@ const cors = require("cors");
 const path = require("path");
 const app = express();
 
-import path from "path";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
