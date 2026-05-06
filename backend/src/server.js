@@ -24,6 +24,7 @@ app.use(
 
 // middleware de logs
 app.use(logTransacciones);
+app.use(cookieParser());
 
 // Rutas
 const authRoutes = require("./routes/authRoutes");
