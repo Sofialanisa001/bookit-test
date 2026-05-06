@@ -23,7 +23,6 @@
     "version": "1.0.0",
     "description": "App web diseñada para agendar y administrar citas",
     "main": "src/server.js",
-    "type": "module",
     "scripts": {
         "test": "jest --detectOpenHandles",
         "start": "node src/server.js",
