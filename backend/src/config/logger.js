@@ -1,6 +1,6 @@
 const winston = require("winston");
 
-// Configuración del formato de los logs
+// configuracion del formato de los logs
 const logFormat = winston.format.combine(
     winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
     winston.format.json(),
@@ -8,45 +8,44 @@ const logFormat = winston.format.combine(
 
 const logger = winston.createLogger({
     format: logFormat,
-
-    // ESTA ES LA CLAVE: Si detecta que es producción, el logger deja de imprimir
-    // pero el objeto sigue existiendo para que el resto de tu código no falle.
-    silent: process.env.NODE_ENV === "production",
-
     transports: [
-        // SOLO usamos archivos si NO estamos en Vercel/Producción
-        ...(process.env.NODE_ENV !== "production"
-            ? [
-                  new winston.transports.File({
-                      filename: "logs/error.log",
-                      level: "error",
-                  }),
-                  new winston.transports.File({
-                      filename: "logs/combinado.log",
-                  }),
-              ]
-            : [
-                  // En producción, si 'silent' fuera false, esto mandaría a la consola de Vercel
-                  new winston.transports.Console({
-                      format: winston.format.simple(),
-                  }),
-              ]),
+        // archivo de errores
+        new winston.transports.File({
+            filename: "logs/error.log",
+            level: "error",
+        }),
+        // archivo que guarda todo
+        new winston.transports.File({
+            filename: "logs/combinado.log",
+        }),
     ],
     exceptionHandlers: [
-        // Evitamos crear archivos de excepciones en el sistema de solo lectura de Vercel
-        ...(process.env.NODE_ENV !== "production"
-            ? [new winston.transports.File({ filename: "logs/exceptions.log" })]
-            : [new winston.transports.Console()]),
+        // para errores no atrapados
+        new winston.transports.File({ filename: "logs/exceptions.log" }),
+
+        //mostrar error en consola tambien
+        new winston.transports.Console({
+            format: winston.format.combine(
+                winston.format.colorize(),
+                winston.format.simple()
+            )
+        })
     ],
     rejectionHandlers: [
-        // Evitamos crear archivos de promesas rechazadas en producción
-        ...(process.env.NODE_ENV !== "production"
-            ? [new winston.transports.File({ filename: "logs/rejections.log" })]
-            : [new winston.transports.Console()]),
+        // para promesas rechazadas no manejadas
+        new winston.transports.File({ filename: "logs/rejections.log" }),
+
+        //mostrar error en consola tambien
+        new winston.transports.Console({
+            format: winston.format.combine(
+                winston.format.colorize(),
+                winston.format.simple()
+            )
+        })
     ],
 });
 
-// Si estás en tu computadora (desarrollo), se ve bonito y con colores en la terminal
+// si no es produccion, se manda a consola tmb
 if (process.env.NODE_ENV !== "production") {
     logger.add(
         new winston.transports.Console({
