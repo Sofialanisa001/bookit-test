@@ -6,13 +6,6 @@ const cors = require("cors");
 const path = require("path");
 const app = express();
 
-/* import { fileURLToPath } from "url";
-const file
- */
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 // Body parser
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -55,6 +48,7 @@ app.use("/api/reportes", reporteRoutes);
 // PARA SERVIR REACT Y BACK EN PRODUCCIÓN JUNTOS
 if (process.env.NODE_ENV === "production") {
     const frontendPath = path.join(__dirname, "public");
+
     app.use(express.static(frontendPath));
 
     app.get("*", (req, res) => {
